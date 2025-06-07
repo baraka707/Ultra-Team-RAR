@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official Team RAR7</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white">
+  <header class="text-center py-10">
+    <h1 class="text-5xl font-bold">Official Team RAR7</h1>
+    <p class="mt-4 text-lg text-gray-300">Selling Top Quality Football Jerseys from All Major Leagues</p>
+    <a
+      href="https://www.instagram.com/officialteamrar7/"
+      target="_blank"
+      class="inline-block mt-6 bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-full"
+    >
+      Visit our Instagram
+    </a>
+    <div class="mt-6 flex justify-center">
+      <div class="relative w-full max-w-md">
+        <input
+          type="text"
+          placeholder="Search for a team..."
+          id="searchInput"
+          class="w-full bg-gray-800 text-white rounded-full pl-4 pr-4 py-2 border border-gray-700 focus:outline-none"
+          oninput="filterTeams()"
+        />
+      </div>
+    </div>
+  </header>
+
+  <main class="space-y-10 px-8 pb-20" id="productContainer">
+    <!-- Team cards will be injected here -->
+  </main>
+
+  <footer class="text-center text-gray-500 py-6 text-sm">
+    &copy; <span id="year"></span> Official Team RAR7. All rights reserved.
+  </footer>
+
+  <script>
+    const products = [
+      {
+        league: "Premier League",
+        teams: ["Manchester City", "Arsenal", "Liverpool", "Manchester United", "Chelsea", "Tottenham", "Newcastle United", "Aston Villa", "West Ham United", "Brighton"]
+      },
+      {
+        league: "La Liga",
+        teams: ["Real Madrid", "Barcelona", "Atletico Madrid", "Sevilla", "Real Sociedad", "Real Betis", "Villarreal", "Athletic Club", "Valencia", "Osasuna"]
+      },
+      {
+        league: "Serie A",
+        teams: ["Inter Milan", "AC Milan", "Juventus", "Napoli", "Roma", "Lazio", "Atalanta", "Fiorentina", "Torino", "Bologna"]
+      },
+      {
+        league: "Bundesliga",
+        teams: ["Bayern Munich", "Borussia Dortmund", "RB Leipzig", "Bayer Leverkusen", "Union Berlin", "Freiburg", "Eintracht Frankfurt", "Mainz", "Wolfsburg", "Hoffenheim"]
+      },
+      {
+        league: "Ligue 1",
+        teams: ["Paris Saint-Germain", "Marseille", "Lyon", "Monaco", "Lille", "Rennes", "Nice", "Reims", "Strasbourg", "Toulouse"]
+      }
+    ];
+
+    function filterTeams() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const container = document.getElementById("productContainer");
+      container.innerHTML = "";
+
+      products.forEach(({ league, teams }) => {
+        const filtered = teams.filter(team => team.toLowerCase().includes(query));
+        if (filtered.length === 0) return;
+
+        const section = document.createElement("div");
+        const title = document.createElement("h2");
+        title.textContent = league;
+        title.className = "text-3xl font-bold mb-4 text-pink-500";
+        section.appendChild(title);
+
+        const grid = document.createElement("div");
+        grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4";
+
+        filtered.forEach(team => {
+          const link = document.createElement("a");
+          link.href = "https://www.instagram.com/officialteamrar7/";
+          link.target = "_blank";
+
+          const card = document.createElement("div");
+          card.className = "bg-gray-900 border border-gray-700 overflow-hidden rounded-xl";
+
+          const img = document.createElement("img");
+          img.src = `/images/jerseys/${team.toLowerCase().replace(/ /g, '-')}.jpg`;
+          img.alt = `${team} Jersey`;
+          img.className = "w-full h-48 object-cover";
+
+          const content = document.createElement("div");
+          content.className = "p-4";
+
+          const teamName = document.createElement("h3");
+          teamName.textContent = team;
+          teamName.className = "text-lg font-semibold";
+
+          const description = document.createElement("p");
+          description.textContent = "Available in all sizes";
+          description.className = "text-gray-400 text-sm";
+
+          content.appendChild(teamName);
+          content.appendChild(description);
+          card.appendChild(img);
+          card.appendChild(content);
+          link.appendChild(card);
+          grid.appendChild(link);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    window.onload = filterTeams;
+  </script>
+</body>
+</html>
